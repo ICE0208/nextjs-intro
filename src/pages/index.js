@@ -5,6 +5,11 @@ export default function Home() {
     <div>
       <NavBar />
       <h1>HOME</h1>
+      <style jsx>{`
+        h1 {
+          font-size: 48px;
+        }
+      `}</style>
     </div>
   );
 }
