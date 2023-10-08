@@ -1,22 +1,9 @@
 import Seo from "@/components/Seo";
-import { useEffect, useState } from "react";
-export default function Home() {
-  const [movies, setMovies] = useState([]);
-  const fetchMovie = async () => {
-    const response = await fetch("/api/movies");
-    const { results } = await response.json();
-    setMovies(results);
-  };
-
-  useEffect(() => {
-    fetchMovie();
-  }, []);
-
+export default function Home({ results }) {
   return (
     <div className="container">
       <Seo title="Home" />
-      {!movies.length && <h4>Loading...</h4>}
-      {movies.map((movie) => (
+      {results.map((movie) => (
         <div
           className="movie"
           key={movie.id}
@@ -48,4 +35,15 @@ export default function Home() {
       `}</style>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const { results } = await (
+    await fetch(`${process.env.BASE_URL}/api/movies`)
+  ).json();
+  return {
+    props: {
+      results,
+    },
+  };
 }
